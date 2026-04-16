@@ -79,15 +79,15 @@ A sophisticated full-stack CRUD application that demonstrates professional web d
 ## Screenshots
 
 ### User Dashboard
-![Dashboard](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=User+Dashboard+Preview)
+![Dashboard](assets/Dashboard.png)
 *Modern dashboard with user overview cards and search functionality*
 
 ### User Management
-![User Management](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=User+Management+Interface)
+![User Management](assets/UserManagement.png)
 *Intuitive user cards with hover effects and quick actions*
 
 ### Add/Edit User
-![User Form](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=User+Creation+Form)
+![User Form](assets/UserForm.png)
 *Clean form design with validation and real-time feedback*
 
 ---
