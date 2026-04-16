@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Config with Clean Color Palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        // Clean Color Palette
+                        'bg-primary': '#f8fafc',
+                        'card-bg': '#ffffff',
+                        'primary': '#2563eb',
+                        'primary-hover': '#1d4ed8',
+                        'text-primary': '#0f172a',
+                        'text-secondary': '#64748b',
+                        'border-color': '#e2e8f0',
+                        'edit': '#f59e0b',
+                        'edit-hover': '#d97706',
+                        'delete': '#ef4444',
+                        'delete-hover': '#dc2626',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce-in': 'bounceIn 0.8s ease-out',
+                        'rotate-in': 'rotateIn 0.6s ease-out',
+                        'glow-in': 'glowIn 1s ease-out',
+                        'float-in': 'floatIn 1s ease-out',
+                        'card-entrance': 'cardEntrance 0.6s ease-out',
+                        'card-hover': 'cardHover 0.4s ease-out',
+                        'shimmer': 'shimmer 2s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        bounceIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.3)' },
+                            '50%': { opacity: '1', transform: 'scale(1.05)' },
+                            '70%': { transform: 'scale(0.9)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        rotateIn: {
+                            '0%': { opacity: '0', transform: 'rotate(-180deg) scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'rotate(0deg) scale(1)' },
+                        },
+                        glowIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)', filter: 'blur(10px)' },
+                            '50%': { opacity: '1', transform: 'scale(1.02)', filter: 'blur(0px)' },
+                            '100%': { opacity: '1', transform: 'scale(1)', filter: 'blur(0px)' },
+                        },
+                        floatIn: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                            '50%': { opacity: '1', transform: 'translateY(5px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        cardEntrance: {
+                            '0%': { opacity: '0', transform: 'translateY(40px) scale(0.8) rotate(-5deg)' },
+                            '50%': { opacity: '0.8', transform: 'translateY(-10px) scale(1.05)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1) rotate(0deg)' },
+                        },
+                        cardHover: {
+                            '0%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-8px) scale(1.05)' },
+                            '100%': { transform: 'translateY(-6px) scale(1.03)' },
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' },
+                        },
+                        pulseGlow: {
+                            '0%': { box-shadow: '0 0 0 0 rgba(37, 99, 235, 0.4)' },
+                            '70%': { box-shadow: '0 0 0 10px rgba(37, 99, 235, 0)' },
+                            '100%': { box-shadow: '0 0 0 0 rgba(37, 99, 235, 0)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #0f172a;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Smooth transitions */
+        .transition-smooth {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Enhanced Form Card Styles */
+        .form-card {
+            position: relative;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .form-card:hover::before {
+            left: 100%;
+        }
+        
+        .form-card:hover {
+            transform: translateY(-8px) scale(1.02) rotate(0.5deg);
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25), 0 12px 25px -5px rgba(37, 99, 235, 0.1);
+            border-color: #2563eb;
+            background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 100%);
+        }
+        
+        /* Section Icon Styles */
+        .section-icon {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .section-icon::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 300% 300%;
+            border-radius: 12px;
+            z-index: -1;
+            animation: gradientShift 3s ease infinite;
+            opacity: 0.7;
+        }
+        
+        .form-card:hover .section-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 16px -4px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Enhanced Input Styles */
+        .input-enhanced {
+            position: relative;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: #0f172a;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .input-enhanced:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 0 0 1px #2563eb;
+            transform: translateY(-2px);
+            background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 100%);
+        }
+        
+        /* Enhanced Select Styles */
+        .select-enhanced {
+            position: relative;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 16px;
+            color: #0f172a;
+            transition: all 0.3s ease;
+            width: 100%;
+            appearance: none;
+            cursor: pointer;
+        }
+        
+        .select-enhanced:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 0 0 1px #2563eb;
+            transform: translateY(-2px);
+            background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 100%);
+        }
+        
+        /* Enhanced Button Styles */
+        .btn-enhanced {
+            position: relative;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+        }
+        
+        .btn-enhanced:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .btn-primary-enhanced {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary-enhanced:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-secondary-enhanced {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: #0f172a;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary-enhanced:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Header glass effect */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(226, 232, 240, 0.6);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        /* Admin card special gradient */
+        .admin-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .admin-gradient::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Info card gradient */
+        .info-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-gradient::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-bg-primary">
+    
+    <!-- Enhanced Header -->
+    <header class="glass-header shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <!-- Admin Card in Header -->
+                    <div class="transition-smooth admin-gradient rounded-lg p-3 shadow-md animate-bounce-in">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 bg-white/20 backdrop-blur rounded-lg flex items-center justify-center">
+                                <i class="fas fa-user-plus text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-xl font-bold text-white">Add New User</h1>
+                                <p class="text-xs text-white/90">Create Account</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span class="text-sm text-gray-600">System Active</span>
+                    </div>
+                    <a href="/users" class="btn-secondary-enhanced transition-smooth inline-flex items-center px-4 py-2 text-sm font-medium">
+                        <i class="fas fa-arrow-left w-3 h-3 mr-2"></i>
+                        Back to Users
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-6 mt-20">
+        
+        <!-- Page Header -->
+        <div class="text-center mb-12 animate-float-in">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-6 shadow-xl">
+                <i class="fas fa-user-plus text-white text-3xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-3">Create New User</h2>
+            <p class="text-lg text-gray-600">Add a new user account and set their permissions</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card animate-card-entrance">
+            <form action="/users" method="POST" class="space-y-8">
+                
+                <!-- Basic Information Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center mb-6">
+                        <div class="section-icon mr-4">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900">Basic Information</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-base font-medium text-gray-900 mb-3">
+                                Full Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" 
+                                   id="name" 
+                                   name="name" 
+                                   required
+                                   class="input-enhanced"
+                                   placeholder="Enter user's full name">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-base font-medium text-gray-900 mb-3">
+                                Email Address <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email" 
+                                   required
+                                   class="input-enhanced"
+                                   placeholder="user@example.com">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Role Information Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center mb-6">
+                        <div class="section-icon mr-4" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <i class="fas fa-briefcase text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900">Role & Department</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="role" class="block text-base font-medium text-gray-900 mb-3">
+                                Role <span class="text-red-500">*</span>
+                            </label>
+                            <select id="role" 
+                                    name="role" 
+                                    required
+                                    class="select-enhanced">
+                                <option value="">Select a role</option>
+                                <option value="admin">Administrator</option>
+                                <option value="user">Standard User</option>
+                                <option value="manager">Manager</option>
+                                <option value="developer">Developer</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="department" class="block text-base font-medium text-gray-900 mb-3">
+                                Department <span class="text-red-500">*</span>
+                            </label>
+                            <select id="department" 
+                                    name="department" 
+                                    required
+                                    class="select-enhanced">
+                                <option value="">Select a department</option>
+                                <option value="IT">Information Technology</option>
+                                <option value="HR">Human Resources</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Operations">Operations</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Account Status Section -->
+                <div class="space-y-6">
+                    <div class="flex items-center mb-6">
+                        <div class="section-icon mr-4" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                            <i class="fas fa-toggle-on text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900">Account Status</h3>
+                    </div>
+                    
+                    <div>
+                        <label for="status" class="block text-base font-medium text-gray-900 mb-3">
+                            Initial Status <span class="text-red-500">*</span>
+                        </label>
+                        <select id="status" 
+                                name="status" 
+                                required
+                                class="select-enhanced">
+                            <option value="active">Active - User can login immediately</option>
+                            <option value="inactive">Inactive - Account created but disabled</option>
+                            <option value="pending">Pending - Awaiting approval</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="flex items-center justify-between pt-8 border-t-2 border-gray-200">
+                    <a href="/users" class="btn-secondary-enhanced transition-smooth inline-flex items-center text-base font-medium">
+                        <i class="fas fa-arrow-left w-4 h-4 mr-2"></i>
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn-enhanced btn-primary-enhanced">
+                        <i class="fas fa-plus w-4 h-4"></i>
+                        Create User
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+        
+        <!-- Info Card -->
+        <div class="mt-12 info-gradient border-2 border-purple-300 rounded-2xl shadow-xl p-8 animate-bounce-in" style="animation-delay: 0.3s">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-info-circle text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div class="ml-6">
+                    <h3 class="text-xl font-semibold text-white mb-3">Quick Tips</h3>
+                    <div class="text-lg text-white/90 space-y-2">
+                        <p>· All fields marked with an asterisk (*) are required</p>
+                        <p>· Users will receive an email notification once their account is created</p>
+                        <p>· You can modify user permissions and roles at any time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    
+    <!-- JavaScript -->
+    <script>
+        // Form validation and interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input, select');
+            
+            // Add input focus effects
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('scale-[1.02]');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('scale-[1.02]');
+                });
+            });
+            
+            // Real-time email validation
+            const emailInput = document.getElementById('email');
+            emailInput.addEventListener('input', function() {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailRegex.test(this.value)) {
+                    this.classList.remove('border-red-500');
+                    this.classList.add('border-green-500');
+                } else if (this.value.length > 0) {
+                    this.classList.remove('border-green-500');
+                    this.classList.add('border-red-500');
+                } else {
+                    this.classList.remove('border-red-500', 'border-green-500');
+                }
+            });
+            
+            // Form submission animation
+            form.addEventListener('submit', function(e) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin w-4 h-4"></i>Creating User...';
+                submitBtn.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>

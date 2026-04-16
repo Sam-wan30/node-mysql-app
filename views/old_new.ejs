@@ -1,0 +1,708 @@
+<%- include('layout') %>
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#059669', // emerald-600
+                        secondary: '#F59E0B', // amber-500
+                        accent: '#06B6D4', // cyan-500
+                        dark: '#1E293B', // slate-800
+                        light: '#F8FAFC', // slate-50
+                        slate: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            300: '#CBD5E1',
+                            400: '#94A3B8',
+                            500: '#64748B',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1E293B',
+                            900: '#0F172A',
+                        }
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'pulse-slow': 'pulse 2s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    boxShadow: {
+                        'startup': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+                        'startup-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'startup-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #059669 0%, #06B6D4 100%);
+        }
+        .gradient-startup {
+            background: linear-gradient(135deg, #059669 0%, #10B981 50%, #06B6D4 100%);
+        }
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .startup-shadow {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .startup-shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .startup-shadow-xl {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+        }
+        .text-hierarchy-1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+        .text-hierarchy-2 {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.025em;
+        }
+        .text-hierarchy-3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .text-hierarchy-4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        .text-hierarchy-5 {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .text-hierarchy-6 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body class="bg-light min-h-screen">
+    <!-- Premium Startup Navbar -->
+    <nav class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 startup-shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo and Brand -->
+                <div class="flex items-center space-x-4">
+                    <div class="gradient-startup p-2.5 rounded-xl shadow-lg">
+                        <i class="fas fa-layer-group text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-hierarchy-4 text-slate-900">AdminHub</h1>
+                        <p class="text-xs text-slate-500 font-medium">User Management System</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/users" class="text-slate-700 font-semibold hover:text-primary transition-colors duration-200 flex items-center space-x-2 text-hierarchy-6">
+                        <i class="fas fa-users text-sm"></i>
+                        <span>Users</span>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-slate-700 transition-colors duration-200 flex items-center space-x-2 text-hierarchy-6">
+                        <i class="fas fa-chart-bar text-sm"></i>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#" class="text-slate-500 hover:text-slate-700 transition-colors duration-200 flex items-center space-x-2 text-hierarchy-6">
+                        <i class="fas fa-cog text-sm"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+                
+                <!-- Right Section -->
+                <div class="flex items-center space-x-4">
+                    <!-- Notifications -->
+                    <button class="relative p-2.5 text-slate-500 hover:text-slate-700 transition-colors duration-200 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-bell text-sm"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                    </button>
+                    
+                    <!-- User Profile -->
+                    <div class="flex items-center space-x-3">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-semibold text-slate-900 text-hierarchy-6">Admin User</p>
+                            <p class="text-xs text-slate-500 font-medium">Administrator</p>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center startup-shadow">
+                            <i class="fas fa-user text-white text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden p-2 text-slate-500 hover:text-slate-700 rounded-lg hover:bg-slate-100">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="max-w-3xl mx-auto">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-8" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="/users" class="text-gray-500 hover:text-primary transition-colors duration-200">
+                            <i class="fas fa-home mr-2"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                            <a href="/users" class="text-gray-500 hover:text-primary transition-colors duration-200">Users</a>
+                        </div>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                            <span class="text-primary font-medium">Add New User</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Premium Startup Page Header -->
+            <div class="gradient-startup rounded-3xl p-12 text-white startup-shadow-xl mb-12 animate-fade-in">
+                <div class="flex flex-col lg:flex-row justify-between items-center">
+                    <div class="lg:w-2/3">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-white/20 backdrop-blur-sm rounded-full p-5 mr-5">
+                                <i class="fas fa-user-plus text-white text-3xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-hierarchy-1 mb-3 text-white">Create New User</h1>
+                                <p class="text-emerald-100 text-lg font-medium">Add a new team member to your organization</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="bg-white/20 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/30">
+                                <i class="fas fa-users mr-3"></i>
+                                <span class="text-hierarchy-6 font-medium">Total Users: <strong>1,247</strong></span>
+                            </div>
+                            <div class="bg-white/20 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/30">
+                                <i class="fas fa-shield-alt mr-3"></i>
+                                <span class="text-hierarchy-6 font-medium">Secure & Compliant</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 lg:mt-0 lg:w-1/3 flex justify-center">
+                        <div class="bg-white/20 backdrop-blur-sm rounded-full p-12 animate-float">
+                            <i class="fas fa-user-plus text-8xl text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Startup Form Card -->
+            <div class="bg-white rounded-3xl startup-shadow-xl border border-slate-100 overflow-hidden animate-slide-up">
+                <div class="bg-gradient-to-r from-slate-50 to-slate-100 px-10 py-8 border-b border-slate-200">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-hierarchy-2 text-slate-900 flex items-center mb-2">
+                                <i class="fas fa-user-circle mr-4 text-primary text-3xl"></i>
+                                User Details
+                            </h2>
+                            <p class="text-hierarchy-6 text-slate-500 font-medium">Enter the user's information below</p>
+                        </div>
+                        <div class="bg-primary/10 rounded-full px-6 py-3 startup-shadow">
+                            <span class="text-primary font-bold text-hierarchy-6">
+                                <i class="fas fa-lock mr-2"></i>Secure Form
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <form action="/users" method="POST" class="p-10 space-y-10">
+                    <!-- Name Field -->
+                    <div class="group">
+                        <label for="name" class="block text-hierarchy-5 font-bold text-slate-900 mb-4 flex items-center">
+                            <i class="fas fa-user mr-3 text-primary text-lg"></i>
+                            Full Name <span class="text-red-500 ml-2">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-slate-400 group-focus-within:text-primary transition-colors duration-200 text-xl"></i>
+                            </div>
+                            <input type="text" 
+                                   id="name" 
+                                   name="name" 
+                                   placeholder="John Doe"
+                                   required
+                                   maxlength="255"
+                                   class="pl-16 pr-5 py-5 w-full border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 hover:border-slate-300 text-hierarchy-5 font-medium bg-white startup-shadow">
+                        </div>
+                        <div class="mt-3 flex items-center text-hierarchy-6 text-slate-500">
+                            <i class="fas fa-info-circle mr-3"></i>
+                            <span>Please enter the user's complete legal name</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Field -->
+                    <div class="group">
+                        <label for="email" class="block text-hierarchy-5 font-bold text-slate-900 mb-4 flex items-center">
+                            <i class="fas fa-envelope mr-3 text-primary text-lg"></i>
+                            Email Address <span class="text-red-500 ml-2">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-slate-400 group-focus-within:text-primary transition-colors duration-200 text-xl"></i>
+                            </div>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email" 
+                                   placeholder="john.doe@company.com"
+                                   required
+                                   maxlength="255"
+                                   class="pl-16 pr-5 py-5 w-full border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 hover:border-slate-300 text-hierarchy-5 font-medium bg-white startup-shadow">
+                        </div>
+                        <div class="mt-3 flex items-center text-hierarchy-6 text-slate-500">
+                            <i class="fas fa-shield-alt mr-3"></i>
+                            <span>We'll never share your email with anyone else</span>
+                        </div>
+                    </div>
+
+                    <!-- Additional Premium Fields -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="group">
+                            <label for="role" class="block text-hierarchy-5 font-bold text-slate-900 mb-4 flex items-center">
+                                <i class="fas fa-briefcase mr-3 text-primary text-lg"></i>
+                                Role
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                    <i class="fas fa-briefcase text-slate-400 group-focus-within:text-primary transition-colors duration-200 text-xl"></i>
+                                </div>
+                                <select id="role" name="role" 
+                                        class="pl-16 pr-5 py-5 w-full border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 hover:border-slate-300 text-hierarchy-5 font-medium appearance-none bg-white startup-shadow">
+                                    <option value="user">User</option>
+                                    <option value="admin">Administrator</option>
+                                    <option value="moderator">Moderator</option>
+                                    <option value="viewer">Viewer</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                                    <i class="fas fa-chevron-down text-slate-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="group">
+                            <label for="department" class="block text-hierarchy-5 font-bold text-slate-900 mb-4 flex items-center">
+                                <i class="fas fa-building mr-3 text-primary text-lg"></i>
+                                Department
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                                    <i class="fas fa-building text-slate-400 group-focus-within:text-primary transition-colors duration-200 text-xl"></i>
+                                </div>
+                                <select id="department" name="department" 
+                                        class="pl-16 pr-5 py-5 w-full border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 hover:border-slate-300 text-hierarchy-5 font-medium appearance-none bg-white startup-shadow">
+                                    <option value="engineering">Engineering</option>
+                                    <option value="sales">Sales</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="hr">Human Resources</option>
+                                    <option value="finance">Finance</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                                    <i class="fas fa-chevron-down text-slate-400 text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Premium Form Actions -->
+                    <div class="flex flex-col lg:flex-row justify-between items-center pt-10 border-t border-slate-200 space-y-6 lg:space-y-0">
+                        <a href="/users" 
+                           class="w-full lg:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 startup-shadow flex items-center justify-center space-x-3 text-hierarchy-5">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Back to Users</span>
+                        </a>
+                        <div class="flex space-x-4 w-full lg:w-auto">
+                            <button type="button" 
+                                    class="flex-1 lg:flex-initial bg-slate-200 hover:bg-slate-300 text-slate-700 px-8 py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 startup-shadow flex items-center justify-center space-x-3 text-hierarchy-5">
+                                <i class="fas fa-save"></i>
+                                <span>Save Draft</span>
+                            </button>
+                            <button type="submit" 
+                                    class="flex-1 lg:flex-initial gradient-startup hover:from-emerald-600 hover:to-cyan-600 text-white px-10 py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 startup-shadow-lg flex items-center justify-center space-x-3 text-hierarchy-5">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Create User</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Premium Startup Info Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                <div class="bg-gradient-to-br from-emerald-50 to-cyan-50 border border-emerald-200 rounded-2xl p-8 hover-lift startup-shadow-lg">
+                    <div class="flex items-start">
+                        <div class="bg-emerald-100 rounded-full p-4 mr-6">
+                            <i class="fas fa-shield-alt text-emerald-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-hierarchy-3 text-emerald-900 mb-3">Security First</h3>
+                            <ul class="text-hierarchy-6 text-emerald-700 space-y-2 font-medium">
+                                <li>All data is encrypted and secure</li>
+                                <li>Two-factor authentication available</li>
+                                <li>GDPR and CCPA compliant</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-cyan-50 to-amber-50 border border-cyan-200 rounded-2xl p-8 hover-lift startup-shadow-lg">
+                    <div class="flex items-start">
+                        <div class="bg-cyan-100 rounded-full p-4 mr-6">
+                            <i class="fas fa-check-circle text-cyan-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-hierarchy-3 text-cyan-900 mb-3">Quick Setup</h3>
+                            <ul class="text-hierarchy-6 text-cyan-700 space-y-2 font-medium">
+                                <li>Instant account activation</li>
+                                <li>Automatic welcome email</li>
+                                <li>Default permissions assigned</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Premium Startup Footer -->
+    <footer class="bg-slate-900 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="gradient-startup p-3 rounded-xl startup-shadow-lg">
+                            <i class="fas fa-layer-group text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-hierarchy-3 font-bold">AdminHub</h3>
+                    </div>
+                    <p class="text-slate-400 text-hierarchy-6 font-medium">Professional user management system for modern businesses.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-hierarchy-5 font-bold mb-6 text-slate-200">Quick Links</h4>
+                    <ul class="space-y-3 text-slate-400 text-hierarchy-6">
+                        <li><a href="/users" class="hover:text-white transition-colors duration-200 font-medium">Users</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200 font-medium">Analytics</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200 font-medium">Settings</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-hierarchy-5 font-bold mb-6 text-slate-200">Support</h4>
+                    <ul class="space-y-3 text-slate-400 text-hierarchy-6">
+                        <li><a href="#" class="hover:text-white transition-colors duration-200 font-medium">Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200 font-medium">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-200 font-medium">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-hierarchy-5 font-bold mb-6 text-slate-200">Stay Updated</h4>
+                    <p class="text-slate-400 text-hierarchy-6 font-medium mb-6">Subscribe to our newsletter for updates.</p>
+                    <div class="flex space-x-3">
+                        <input type="email" placeholder="Your email" 
+                               class="bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-hierarchy-6 flex-1 focus:ring-2 focus:ring-primary focus:border-transparent startup-shadow">
+                        <button class="bg-primary hover:bg-emerald-600 text-white px-6 py-3 rounded-xl text-hierarchy-6 font-bold transition-all duration-300 transform hover:scale-105 startup-shadow">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 mt-12 pt-12 text-center text-slate-400 text-hierarchy-6">
+                <p>&copy; 2024 AdminHub. Built with <i class="fas fa-heart text-red-500"></i> using Node.js & Tailwind CSS. Modern Startup Dashboard.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Premium JavaScript for form validation and interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const roleInput = document.getElementById('role');
+            const departmentInput = document.getElementById('department');
+            
+            // Form validation with enhanced UX
+            form.addEventListener('submit', function(event) {
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const role = roleInput.value;
+                const department = departmentInput.value;
+                
+                // Reset previous errors
+                document.querySelectorAll('.field-error').forEach(el => el.remove());
+                
+                // Validate name
+                if (name === '') {
+                    showFieldError(nameInput, 'Please enter a name.');
+                    event.preventDefault();
+                    return false;
+                }
+                
+                if (name.length < 2) {
+                    showFieldError(nameInput, 'Name must be at least 2 characters long.');
+                    event.preventDefault();
+                    return false;
+                }
+                
+                // Validate email
+                if (email === '') {
+                    showFieldError(emailInput, 'Please enter an email address.');
+                    event.preventDefault();
+                    return false;
+                }
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showFieldError(emailInput, 'Please enter a valid email address.');
+                    event.preventDefault();
+                    return false;
+                }
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating User...';
+                
+                // Show success notification
+                showNotification('Creating user account...', 'success');
+                
+                // Re-enable button after 3 seconds (for demo)
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                }, 3000);
+                
+                return true;
+            });
+            
+            // Enhanced input interactions
+            [nameInput, emailInput, roleInput, departmentInput].forEach(input => {
+                // Focus effects
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+                    this.parentElement.querySelector('i').classList.add('text-primary');
+                    this.parentElement.querySelector('i').classList.remove('text-gray-400');
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+                    this.parentElement.querySelector('i').classList.remove('text-primary');
+                    this.parentElement.querySelector('i').classList.add('text-gray-400');
+                });
+                
+                // Real-time validation
+                input.addEventListener('input', function() {
+                    this.classList.remove('border-red-500');
+                    const errorEl = this.parentElement.parentElement.querySelector('.field-error');
+                    if (errorEl) {
+                        errorEl.remove();
+                    }
+                });
+            });
+            
+            // Add ripple effect to buttons
+            const buttons = document.querySelectorAll('button, a[href="/users"]');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    createRipple(e, this);
+                });
+            });
+            
+            // Auto-save draft functionality
+            let autoSaveTimer;
+            [nameInput, emailInput, roleInput, departmentInput].forEach(input => {
+                input.addEventListener('input', function() {
+                    clearTimeout(autoSaveTimer);
+                    autoSaveTimer = setTimeout(() => {
+                        const draftData = {
+                            name: nameInput.value,
+                            email: emailInput.value,
+                            role: roleInput.value,
+                            department: departmentInput.value
+                        };
+                        localStorage.setItem('userDraft', JSON.stringify(draftData));
+                        showNotification('Draft saved automatically', 'info');
+                    }, 2000);
+                });
+            });
+            
+            // Load draft on page load
+            const draftData = localStorage.getItem('userDraft');
+            if (draftData) {
+                const draft = JSON.parse(draftData);
+                if (draft.name && !nameInput.value) nameInput.value = draft.name;
+                if (draft.email && !emailInput.value) emailInput.value = draft.email;
+                if (draft.role) roleInput.value = draft.role;
+                if (draft.department) departmentInput.value = draft.department;
+            }
+        });
+        
+        // Show field error
+        function showFieldError(input, message) {
+            input.classList.add('border-red-500');
+            const errorEl = document.createElement('div');
+            errorEl.className = 'field-error text-red-500 text-sm mt-1 flex items-center';
+            errorEl.innerHTML = `<i class="fas fa-exclamation-circle mr-1"></i>${message}`;
+            input.parentElement.parentElement.appendChild(errorEl);
+            input.focus();
+        }
+        
+        // Create ripple effect
+        function createRipple(e, button) {
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            button.appendChild(ripple);
+            
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            
+            setTimeout(() => ripple.remove(), 600);
+        }
+        
+        // Enhanced notification system
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle'
+            };
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500'
+            };
+            
+            notification.className = `fixed top-4 right-4 ${colors[type]} text-white px-6 py-4 rounded-lg shadow-xl z-50 transform transition-all duration-300 flex items-center space-x-3`;
+            notification.innerHTML = `
+                <i class="fas ${icons[type]} text-xl"></i>
+                <div>
+                    <p class="font-semibold">${type === 'success' ? 'Success' : type === 'error' ? 'Error' : 'Info'}</p>
+                    <p class="text-sm opacity-90">${message}</p>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remove after 4 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+    </script>
+    
+    <style>
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        button, a[href="/users"] {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .field-error {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+</html>

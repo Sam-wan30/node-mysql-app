@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Config with Clean Color Palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        // Clean Color Palette
+                        'bg-primary': '#f8fafc',
+                        'card-bg': '#ffffff',
+                        'primary': '#2563eb',
+                        'primary-hover': '#1d4ed8',
+                        'text-primary': '#0f172a',
+                        'text-secondary': '#64748b',
+                        'border-color': '#e2e8f0',
+                        'edit': '#f59e0b',
+                        'edit-hover': '#d97706',
+                        'delete': '#ef4444',
+                        'delete-hover': '#dc2626',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce-in': 'bounceIn 0.8s ease-out',
+                        'rotate-in': 'rotateIn 0.6s ease-out',
+                        'glow-in': 'glowIn 1s ease-out',
+                        'float-in': 'floatIn 1s ease-out',
+                        'card-entrance': 'cardEntrance 0.6s ease-out',
+                        'card-hover': 'cardHover 0.4s ease-out',
+                        'shimmer': 'shimmer 2s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        bounceIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.3)' },
+                            '50%': { opacity: '1', transform: 'scale(1.05)' },
+                            '70%': { transform: 'scale(0.9)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        rotateIn: {
+                            '0%': { opacity: '0', transform: 'rotate(-180deg) scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'rotate(0deg) scale(1)' },
+                        },
+                        glowIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)', filter: 'blur(10px)' },
+                            '50%': { opacity: '1', transform: 'scale(1.02)', filter: 'blur(0px)' },
+                            '100%': { opacity: '1', transform: 'scale(1)', filter: 'blur(0px)' },
+                        },
+                        floatIn: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                            '50%': { opacity: '1', transform: 'translateY(5px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        cardEntrance: {
+                            '0%': { opacity: '0', transform: 'translateY(40px) scale(0.8) rotate(-5deg)' },
+                            '50%': { opacity: '0.8', transform: 'translateY(-10px) scale(1.05)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1) rotate(0deg)' },
+                        },
+                        cardHover: {
+                            '0%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-8px) scale(1.05)' },
+                            '100%': { transform: 'translateY(-6px) scale(1.03)' },
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' },
+                        },
+                        pulseGlow: {
+                            '0%': { box-shadow: '0 0 0 0 rgba(37, 99, 235, 0.4)' },
+                            '70%': { box-shadow: '0 0 0 10px rgba(37, 99, 235, 0)' },
+                            '100%': { box-shadow: '0 0 0 0 rgba(37, 99, 235, 0)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #0f172a;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Smooth transitions */
+        .transition-smooth {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Admin Card Styles */
+        .admin-card:hover {
+            transform: translateY(-2px) rotate(0.5deg) scale(1.01);
+            box-shadow: 0 15px 30px -12px rgba(37, 99, 235, 0.25), 0 8px 15px -5px rgba(37, 99, 235, 0.1);
+        }
+        
+        /* Overview Section Styles */
+        .overview-section {
+            background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .overview-section::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #2563eb, #667eea, #764ba2, #2563eb);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: gradientShift 8s ease infinite;
+            border-radius: inherit;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Stats Card Styles */
+        .stats-card:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.15), 0 8px 15px -5px rgba(0, 0, 0, 0.06);
+        }
+        
+        /* Enhanced User Card Styles */
+        .user-card {
+            position: relative;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .user-card:hover::before {
+            left: 100%;
+        }
+        
+        .user-card:hover {
+            transform: translateY(-8px) scale(1.03) rotate(1deg);
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25), 0 12px 25px -5px rgba(37, 99, 235, 0.1);
+            border-color: #2563eb;
+            background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 100%);
+        }
+        
+        .user-avatar {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .user-card:hover .user-avatar {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 16px -4px rgba(102, 126, 234, 0.4);
+        }
+        
+        .user-avatar::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 300% 300%;
+            border-radius: 12px;
+            z-index: -1;
+            animation: gradientShift 3s ease infinite;
+            opacity: 0.7;
+        }
+        
+        .status-badge {
+            position: relative;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px -1px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .status-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .user-card:hover .status-badge {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px -2px rgba(16, 185, 129, 0.4);
+        }
+        
+        .user-card:hover .status-badge::before {
+            opacity: 1;
+        }
+        
+        .action-button {
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s ease;
+        }
+        
+        .action-button:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .edit-button {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            box-shadow: 0 2px 4px -1px rgba(245, 158, 11, 0.3);
+        }
+        
+        .edit-button:hover {
+            transform: translateY(-2px) scale(1.05) rotate(-2deg);
+            box-shadow: 0 6px 12px -4px rgba(245, 158, 11, 0.4);
+        }
+        
+        .delete-button {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 2px 4px -1px rgba(239, 68, 68, 0.3);
+        }
+        
+        .delete-button:hover {
+            transform: translateY(-2px) scale(1.05) rotate(2deg);
+            box-shadow: 0 6px 12px -4px rgba(239, 68, 68, 0.4);
+        }
+        
+        /* Button hover effects */
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -12px rgba(37, 99, 235, 0.3), 0 8px 15px -5px rgba(37, 99, 235, 0.2);
+        }
+        
+        /* Input focus effect */
+        .input-focus:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 0 0 1px #2563eb;
+            border-color: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        /* Header glass effect */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(226, 232, 240, 0.6);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        /* Admin card special gradient */
+        .admin-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .admin-gradient::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        /* Stats card gradients */
+        .stats-gradient-1 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .stats-gradient-2 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .stats-gradient-3 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .stats-gradient-4 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        /* Glow effect for overview section */
+        .overview-glow {
+            animation: glowIn 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-bg-primary">
+    
+    <!-- Enhanced Header -->
+    <header class="glass-header shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <!-- Admin Card in Header -->
+                    <div class="admin-card transition-smooth admin-gradient rounded-lg p-3 shadow-md animate-bounce-in">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 bg-white/20 backdrop-blur rounded-lg flex items-center justify-center">
+                                <i class="fas fa-crown text-white text-lg"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-xl font-bold text-white">Admin Dashboard</h1>
+                                <p class="text-xs text-white/90">Enterprise Management System</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="relative">
+                        <input type="text" 
+                               id="searchInput"
+                               placeholder="Search users globally..." 
+                               class="input-focus transition-smooth w-56 px-3 py-2 pl-8 bg-white/90 backdrop-blur border border-gray-200 rounded-lg text-gray-800 placeholder-gray-600 text-sm focus:outline-none">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 w-3 h-3"></i>
+                    </div>
+                    <a href="/users/new" class="btn-primary transition-smooth inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-sm font-semibold shadow-md">
+                        <i class="fas fa-plus mr-2"></i>
+                        Add User
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-6 mt-20">
+        
+        <!-- Page Header with Stats -->
+        <div class="mb-8 animate-fade-in">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Users Overview</h2>
+                    <p class="text-sm text-gray-600">Manage your users and their access permissions</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span class="text-sm text-gray-600">System Active</span>
+                </div>
+            </div>
+
+            <!-- Distinctive User Overview Section -->
+            <div class="overview-section overview-glow rounded-lg shadow-md p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div class="text-center">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm mb-2 mx-auto">
+                            <i class="fas fa-users text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Total Users</h3>
+                        <p class="text-2xl font-bold text-blue-600"><%= users.length %></p>
+                        <p class="text-xs text-gray-600 mt-1">All registered accounts</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center shadow-sm mb-2 mx-auto">
+                            <i class="fas fa-user-check text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Active Users</h3>
+                        <p class="text-2xl font-bold text-blue-600"><%= users.filter(u => u.status === 'active').length %></p>
+                        <p class="text-xs text-gray-600 mt-1">Currently online</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center shadow-sm mb-2 mx-auto">
+                            <i class="fas fa-user-clock text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Recent Activity</h3>
+                        <p class="text-2xl font-bold text-blue-600">24</p>
+                        <p class="text-xs text-gray-600 mt-1">Last 24 hours</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center shadow-sm mb-2 mx-auto">
+                            <i class="fas fa-chart-line text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Growth Rate</h3>
+                        <p class="text-2xl font-bold text-blue-600">+12%</p>
+                        <p class="text-xs text-gray-600 mt-1">Monthly increase</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Grid -->
+        <% if (users.length === 0) { %>
+            <!-- Empty State -->
+            <div class="text-center py-12 animate-scale-in">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full mb-4 shadow-md">
+                    <i class="fas fa-users text-gray-400 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">No users yet</h3>
+                <p class="text-sm text-gray-600 mb-4">Get started by adding your first user to system.</p>
+                <a href="/users/new" class="btn-primary transition-smooth inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg text-sm font-semibold shadow-md">
+                    <i class="fas fa-plus mr-2"></i>
+                    Create User
+                </a>
+            </div>
+        <% } else { %>
+            <!-- User Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <% users.forEach(function(user, index) { %>
+                    <div class="user-card animate-card-entrance" style="animation-delay: <%= index * 0.1 %>s">
+                        <!-- User Info Section -->
+                        <div class="flex items-start justify-between mb-4">
+                            <!-- Left Side: User Info -->
+                            <div class="flex items-center flex-1">
+                                <div class="user-avatar mr-3">
+                                    <%= user.name.charAt(0).toUpperCase() %>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="user-name text-base font-bold text-gray-900 truncate mb-1"><%= user.name %></h4>
+                                    <p class="user-email text-xs text-gray-500 truncate"><%= user.email %></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Status Badge -->
+                        <div class="mb-4">
+                            <div class="status-badge">
+                                <i class="fas fa-circle text-xs" style="font-size: 6px;"></i>
+                                Active
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-200">
+                            <div class="flex items-center space-x-2">
+                                <a href="/users/<%= user.id %>/edit" class="action-button edit-button">
+                                    <i class="fas fa-edit w-3 h-3"></i>
+                                    Edit
+                                </a>
+                                <button onclick="showDeleteModal(<%= user.id %>, '<%= user.name %>')" class="action-button delete-button">
+                                    <i class="fas fa-trash w-3 h-3"></i>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-center justify-center min-h-screen px-4">
+                <div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+                <div class="relative bg-white border-4 border-red-300 rounded-lg shadow-xl max-w-md w-full p-6 animate-scale-in">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-exclamation-triangle text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-lg font-semibold text-gray-900">Delete User</h3>
+                            <p class="text-sm text-gray-600">Are you sure you want to delete this user?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <p class="text-gray-600 text-sm">This action cannot be undone. This will permanently delete <span id="deleteUserName" class="font-medium text-gray-900"></span> and all associated data.</p>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button onclick="closeDeleteModal()" class="transition-smooth px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-lg text-sm font-medium border border-gray-300">
+                            Cancel
+                        </button>
+                        <form id="deleteForm" method="POST" style="display: inline;">
+                            <button type="submit" class="transition-smooth px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium">
+                                Delete User
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    
+    <!-- JavaScript -->
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const userCards = document.querySelectorAll('.user-card');
+                
+                userCards.forEach(card => {
+                    const userName = card.querySelector('.user-name')?.textContent.toLowerCase() || '';
+                    const userEmail = card.querySelector('.user-email')?.textContent.toLowerCase() || '';
+                    
+                    if (userName.includes(searchTerm) || userEmail.includes(searchTerm)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        // Delete modal functions
+        function showDeleteModal(userId, userName) {
+            const modal = document.getElementById('deleteModal');
+            const userNameSpan = document.getElementById('deleteUserName');
+            const deleteForm = document.getElementById('deleteForm');
+            
+            userNameSpan.textContent = userName;
+            deleteForm.action = `/users/${userId}/delete`;
+            
+            modal.classList.remove('hidden');
+        }
+        
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            modal.classList.add('hidden');
+        }
+        
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDeleteModal();
+            }
+        });
+        
+        // Close modal on backdrop click
+        document.getElementById('deleteModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeDeleteModal();
+            }
+        });
+    </script>
+</body>
+</html>
